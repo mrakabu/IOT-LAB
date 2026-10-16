@@ -1,0 +1,52 @@
+const int LDR = A0;
+
+int leds[] = {2, 3, 4, 5, 6};
+int numberOfLeds = 5;
+
+void setup() {
+  for (int i = 0; i < numberOfLeds; i++) {
+    pinMode(leds[i], OUTPUT);
+  }
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  int lightValue = analogRead(LDR);
+
+  Serial.println(lightValue);
+
+  // Calculate how many LEDs should be ON
+  int ledsOn = 0;
+
+  if (lightValue < 200) {
+    ledsOn = 5;
+  }
+  else if (lightValue < 400) {
+    ledsOn = 4;
+  }
+  else if (lightValue < 600) {
+    ledsOn = 3;
+  }
+  else if (lightValue < 800) {
+    ledsOn = 2;
+  }
+  else if (lightValue < 950) {
+    ledsOn = 1;
+  }
+  else {
+    ledsOn = 0;
+  }
+
+  // Turn LEDs ON/OFF using for loop
+  for (int i = 0; i < numberOfLeds; i++) {
+    if (i < ledsOn) {
+      digitalWrite(leds[i], HIGH);
+    }
+    else {
+      digitalWrite(leds[i], LOW);
+    }
+  }
+
+  delay(100);
+}
