@@ -1,0 +1,49 @@
+// Waste Classification using Soil Moisture Sensor and RGB LED
+
+int sensorPin = A0;
+
+// RGB LED pins
+int redPin = 7;
+int bluePin = 6;
+int greenPin = 5;
+
+int sensorValue = 0;
+
+void setup() {
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  // Read soil moisture sensor
+  sensorValue = analogRead(sensorPin);
+
+  Serial.print("Moisture Value: ");
+  Serial.println(sensorValue);
+
+  if (sensorValue < 500) {
+
+    // DRY WASTE → RED
+    digitalWrite(redPin, HIGH);
+    digitalWrite(greenPin, LOW);
+    digitalWrite(bluePin, LOW);
+
+    Serial.println("Classified: DRY WASTE");
+  }
+
+  else {
+
+    // WET WASTE → GREEN
+    digitalWrite(redPin, LOW);
+    digitalWrite(greenPin, HIGH);
+    digitalWrite(bluePin, LOW);
+
+    Serial.println("Classified: WET WASTE");
+  }
+
+  delay(500);
+}
