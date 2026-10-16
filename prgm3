@@ -1,0 +1,57 @@
+long duration;
+int distance;
+
+void setup()
+{
+  Serial.begin(9600);
+
+  pinMode(8, OUTPUT);   // Green LED
+  pinMode(9, OUTPUT);   // Red LED
+  pinMode(10, OUTPUT);  // Buzzer
+
+  pinMode(6, OUTPUT);   // Ultrasonic TRIG
+  pinMode(5, INPUT);    // Ultrasonic ECHO
+}
+
+void loop()
+{
+  digitalWrite(6, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(6, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(6, LOW);
+
+  duration = pulseIn(5, HIGH);
+ 
+  if (duration == 0)
+  {
+    Serial.println("No echo");
+    digitalWrite(8, LOW);
+    digitalWrite(9, LOW);
+    digitalWrite(10, LOW);
+  }
+  else
+  {
+    distance = duration * 0.01723;
+
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println(" cm");
+
+    if (distance <= 100)
+    {
+      digitalWrite(8, HIGH);
+      digitalWrite(9, HIGH);
+      digitalWrite(10, HIGH);
+    }
+    else
+    {
+      digitalWrite(8, LOW);
+      digitalWrite(9, LOW);
+      digitalWrite(10, LOW);
+    }
+  }
+
+  delay(100);
+}
